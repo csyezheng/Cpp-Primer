@@ -7,31 +7,14 @@ using std::endl;
 using std::list;
 using std::vector;
 
-bool isEqual(const list<int> &ilst, const vector<int> &ivec)
-{
-	if (ilst.size() != ivec.size())
-		return false;
-
-	auto lstBeg = ilst.cbegin();
-	auto vecBeg = ivec.cbegin();
-
-	while (lstBeg != ilst.cend() && vecBeg != ivec.cend())
-	{
-		if (*lstBeg != *vecBeg)
-			return false;
-		++lstBeg;
-		++vecBeg;
-	}
-
-	return true;
-}
 
 int main()
 {
 	list<int> lst = { 1, 3, 5, 7, 9 };
 	vector<int> vec = { 1, 3, 5, 8, 9 };
+	vector<int> vecFromLst(lst.cbegin(), lst.cend());
 	
-	if (isEqual(lst, vec))
+	if (vec == vecFromLst)
 	{
 		cout << "the list and the vector have the same elements " << endl;
 	}
@@ -39,4 +22,6 @@ int main()
 	{
 		cout << "the list and the vector are difference" << endl;
 	}
+
+	return true;
 }
