@@ -22,3 +22,10 @@ std::ostream &print(std::ostream &os, const Sales_data &item)
 		<< item.revenue << " " << item.avg_price() << std::endl;
 	return os;
 }
+
+Sales_data operator+(const Sales_data &sd1, const Sales_data &sd2)
+{
+	Sales_data temp = sd1;
+	temp.combine(sd2);
+	return temp;
+}

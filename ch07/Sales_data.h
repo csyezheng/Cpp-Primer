@@ -1,5 +1,3 @@
-// the file name should be Sales_data.h
-
 #ifndef SALES_DATA_H
 #define SALES_DATA_H
 
@@ -24,14 +22,14 @@ public:
 	{
 		return bookNo;
 	}
-	
+
 	Sales_data &combine(const Sales_data &rhs)
 	{
 		revenue += revenue;
-	units_sold += rhs.units_sold;
-	return *this;
+		units_sold += rhs.units_sold;
+		return *this;
 	}
-	
+
 	double avg_price() const
 	{
 		if (units_sold)
@@ -51,5 +49,6 @@ private:
 Sales_data add(const Sales_data&, const Sales_data&);
 std::istream &read(std::istream&, Sales_data&);
 std::ostream &print(std::ostream&, const Sales_data&);
+Sales_data operator+(const Sales_data &sd1, const Sales_data &sd2);
 
 #endif
