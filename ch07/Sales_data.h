@@ -7,15 +7,15 @@
 class Sales_data
 {
 public:
-	friend Sales_data add(const Sales_data &lhs, const Sales_data &rhs);
-	friend std::istream &read(std::istream &is, Sales_data &item);
-	friend std::ostream &print(std::ostream &os, const Sales_data &item);
+	friend Sales_data operator+(const Sales_data &lhs, const Sales_data &rhs);
+	friend std::istream &operator>>(std::istream &is, Sales_data &item);
+	friend std::ostream &operator<<(std::ostream &os, const Sales_data &item);
 	// construct functions
 	Sales_data() = default;
 	Sales_data(const std::string &s) : bookNo(s) { }
 	Sales_data(const std::string &s, unsigned n, double p) :
 		bookNo(s), units_sold(n), revenue(p) { }
-	Sales_data(std::istream &is) { read(is, *this); }
+	Sales_data(std::istream &is) { operator >> (is, *this); }
 
 	// member functions
 	std::string isbn() const
@@ -47,8 +47,7 @@ private:
 
 
 Sales_data add(const Sales_data&, const Sales_data&);
-std::istream &read(std::istream&, Sales_data&);
-std::ostream &print(std::ostream&, const Sales_data&);
-Sales_data operator+(const Sales_data &sd1, const Sales_data &sd2);
+std::istream &operator >> (std::istream&, Sales_data&);
+std::ostream &operator << (std::ostream&, const Sales_data&);
 
 #endif
