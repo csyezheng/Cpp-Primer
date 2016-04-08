@@ -62,6 +62,6 @@ const std::string StrBlob::back() const
 void StrBlob::check(const size_type i, const std::string &msg) const
 {
 	if (i >= data->size())
-		throw std::runtime_error(msg);
+		throw std::out_of_range(msg);
 }
 
