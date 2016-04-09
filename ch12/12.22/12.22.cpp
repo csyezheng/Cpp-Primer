@@ -84,7 +84,7 @@ void StrBlob::check(const size_type i, const string &msg) const
 /* constructor function */
 ConstStrBlobPtr::ConstStrBlobPtr() : curr(0) { }
 
-ConstStrBlobPtr::ConstStrBlobPtr(const StrBlob &sb, size_t sz) :
+ConstStrBlobPtr::ConstStrBlobPtr(const StrBlob &sb, const size_t sz) :
 	wptr(sb.data), curr(sz) { }
 
 /* member function */
@@ -101,7 +101,7 @@ ConstStrBlobPtr &ConstStrBlobPtr::incr()
 	return *this;
 }
 
-shared_ptr<vector<string>> 
+shared_ptr<vector<string>>
 ConstStrBlobPtr::check(const size_t i, const string &msg) const
 {
 	auto ret = wptr.lock();

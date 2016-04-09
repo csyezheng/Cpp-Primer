@@ -49,7 +49,7 @@ ostream &print(ostream &os, const QueryResult &qr)
 	for (const auto &num : *qr.lines)
 	{
 		ConstStrBlobPtr p(qr.file, num);
-		cout << "\t(line " << num + 1 << ") " << p.deref()  << endl;
+		cout << "\t(line " << num + 1 << ") " << p.deref() << endl;
 	}
 	return os;
 }

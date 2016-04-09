@@ -16,7 +16,6 @@ public:
 	using size_type = std::vector<std::string>::size_type;
 	StrBlob();
 	StrBlob(std::initializer_list<std::string> il);
-	std::vector<std::string> &operator*();
 	size_type size() const;
 	bool empty() const;
 	void push_back(const std::string &str);
@@ -25,8 +24,8 @@ public:
 	const std::string front() const;
 	std::string &back();
 	const std::string back() const;
-	StrBlobPtr begin();
-	StrBlobPtr end();
+	ConstStrBlobPtr begin() const;
+	ConstStrBlobPtr end() const;
 private:
 	std::shared_ptr<std::vector<std::string>> data;
 	void check(const size_type i, const std::string &msg) const;
@@ -51,8 +50,8 @@ class ConstStrBlobPtr
 {
 public:
 	ConstStrBlobPtr();
-	ConstStrBlobPtr(const StrBlob &sb, std::size_t sz = 0);
-	const std::string &deref() const;
+	ConstStrBlobPtr(const StrBlob &sb, const std::size_t);
+	const std::string deref() const;
 	ConstStrBlobPtr &incr();
 private:
 	std::weak_ptr<std::vector<std::string>> wptr;

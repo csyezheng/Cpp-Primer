@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <stdexcept>
 #include "StrBlob.h"
 
 using namespace std;
@@ -9,11 +10,6 @@ StrBlob::StrBlob() : data(make_shared<vector<string>>()) { }
 
 StrBlob::StrBlob(initializer_list<string> il) :
 	data(make_shared<vector<string>>(il)) { }
-
-vector<string> &operator*()
-{
-	return *data;
-}
 
 StrBlob::size_type StrBlob::size() const
 {
@@ -58,16 +54,17 @@ const string StrBlob::back() const
 	check(0, "back on empty StrBlob");
 	return data->back();
 }
-
-StrBlobPtr StrBlob::begin()
+/*
+ConstStrBlobPtr StrBlob::begin() const 
 {
-	return StrBlobPtr(*this);
+	return ConstStrBlobPtr(*this);                ///////////////////////
+}
+*/
+ConstStrBlobPtr StrBlob::end() const 
+{
+	return ConstStrBlobPtr(*this, data->size());
 }
 
-StrBlobPtr StrBlob::end()
-{
-	return StrBlobPtr(*this, size());
-}
 
 void StrBlob::check(const size_type i, const string &msg) const
 {
@@ -101,5 +98,34 @@ shared_ptr<vector<string>> StrBlobPtr::check(const size_t i,
 		throw runtime_error("unbound StrBlob");
 	if (i >= ret->size())
 		throw out_of_range(msg);
+	return ret;
+}
+
+ConstStrBlobPtr::ConstStrBlobPtr() : curr(0) { }
+
+ConstStrBlobPtr::ConstStrBlobPtr(const StrBlob &sb, const size_t sz = 0) :
+	wptr(sb.data), curr(sz) { }
+
+const string ConstStrBlobPtr::deref() const
+{
+	auto ret = check(curr, "dereference past end of ConstStrBlobPtr");
+	return (*ret)[curr];
+}
+
+ConstStrBlobPtr &ConstStrBlobPtr::incr()
+{
+	check(curr, "increment past end of ConstStrBlobPtr");
+	++curr;
+	return *this;
+}
+
+shared_ptr<vector<string>> 
+ConstStrBlobPtr::check(const size_t i, const string &msg) const
+{
+	auto ret = wptr.lock();
+	if (!ret)
+		throw std::runtime_error("unbounded ConstStrBlobPtr");
+	if (i >= ret->size())
+		throw std::out_of_range(msg);
 	return ret;
 }
