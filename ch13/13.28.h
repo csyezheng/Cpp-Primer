@@ -8,8 +8,9 @@ class TreeNode
 public:
 	TreeNode(const std::string &s = std::string()) :
 		value(s), count(new int(1)), left(nullptr), right(nullptr) { }
-	TreeNode(const TreeNode &tn);
-	TreeNode &operator(const TreeNode &tn);
+	TreeNode(const TreeNode&);
+	TreeNode &operator= (const TreeNode&);
+	~TreeNode();
 private:
 	std::string value;
 	int *count;
@@ -19,10 +20,10 @@ private:
 
 class BinStrTree
 {
-public:
 	BinStrTree();
-	BinStrTree(const BinStrTree &bst);
-	BinStrTree &operator= (const BinStrTree &bst);
+	BinStrTree(const BinStrTree&);
+	BinStrTree &operator= (const BinStrTree&);
+	~BinStrTree();
 private:
 	TreeNode *root;
 };
