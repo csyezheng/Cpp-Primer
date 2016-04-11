@@ -38,6 +38,13 @@ StrVec &StrVec::operator= (const StrVec &rhs)
 	return *this;
 }
 
+string &StrVec::operator[](std::size_t i)
+{
+	if ((first_free - elements) < i || (first_free - elements) == i)
+		throw std::out_of_range("out of range");
+	return *(elements + i);
+}
+
 string *StrVec::begin() const
 {
 	return elements;
@@ -95,9 +102,4 @@ void StrVec::free()
 	for (auto p = first_free; p != elements; /* empty */)
 		alloc.destroy(--p);
 	alloc.deallocate(elements, cap - elements);
-}
-
-int main()
-{
-	return 0;
 }
