@@ -111,6 +111,18 @@ ConstStrBlobPtr StrBlob::cend() const
 	return ConstStrBlobPtr(*this, size());
 }
 
+string &StrBlob::operator[](std::size_t n)
+{
+	check(n, "operator[] past end of StrBlob");
+	return (*data)[n];
+}
+
+const string &StrBlob::operator[](std::size_t n) const
+{
+	check(n, "operator[] past end of StrBlob");
+	return (*data)[n];
+}
+
 void StrBlob::check(const size_type i, const string &msg) const
 {
 	if (i >= size())
@@ -125,6 +137,26 @@ bool operator== (const StrBlob &lhs, const StrBlob &rhs)
 bool operator!= (const StrBlob &lhs, const StrBlob &rhs)
 {
 	return !(lhs == rhs);
+}
+
+bool operator< (const StrBlob &lhs, const StrBlob &rhs)
+{
+	return *lhs.data < *rhs.data;
+}
+
+bool operator> (const StrBlob &lhs, const StrBlob &rhs)
+{
+	return *lhs.data > *rhs.data;
+}
+
+bool operator<= (const StrBlob &lhs, const StrBlob &rhs)
+{
+	return !(lhs > rhs);
+}
+
+bool operator>= (const StrBlob &lhs, const StrBlob &rhs)
+{
+	return !(lhs < rhs);
 }
 
 /*=============================== define for StrBlobPtr ===============================*/
@@ -142,6 +174,71 @@ StrBlobPtr &StrBlobPtr::incr()
 	check(curr, "increment past end of StrBlobPtr");
 	++curr;
 	return *this;
+}
+
+string &StrBlobPtr::operator[](std::size_t n)
+{
+	auto ret = check(n, "operator[] past end of StrBlobPtr");
+	return (*ret)[n];
+}
+
+const string &StrBlobPtr::operator[](std::size_t n) const
+{
+	auto ret = check(n, "operator[] past end of StrBlobPtr");
+	return (*ret)[n];
+}
+
+StrBlobPtr &StrBlobPtr::operator++()
+{
+	++curr;
+	check(curr, "increment past end of StrBlobPtr");
+	return *this;
+}
+
+StrBlobPtr &StrBlobPtr::operator--()
+{
+	--curr;
+	check(curr, "decrement past end of StrBlobPtr");
+	return *this;
+}
+
+StrBlobPtr StrBlobPtr::operator++(int)
+{
+	auto ret = *this;
+	++*this;
+	return ret;
+}
+
+StrBlobPtr StrBlobPtr::operator--(int)
+{
+	auto ret = *this;
+	--*this;
+	return ret;
+}
+
+StrBlobPtr &StrBlobPtr::operator+= (std::size_t n)
+{
+	curr += n;
+	check(curr, "increment past end of StrBlobPtr");
+	return *this;
+}
+
+StrBlobPtr &StrBlobPtr::operator-= (std::size_t n)
+{
+	curr -= n;
+	check(curr, "decrement past end of StrBlobPtr");
+	return *this;
+}
+
+string &StrBlobPtr::operator* () const
+{
+	auto ret = check(curr, "dereference past end of StrBlobPtr");
+	return (*ret)[curr];
+}
+
+string *StrBlobPtr::operator->() const
+{
+	return &this->operator*();
 }
 
 shared_ptr<vector<string>> StrBlobPtr::check(const size_t i, const string &msg) const
@@ -164,6 +261,40 @@ bool operator!= (const StrBlobPtr &lhs, const StrBlobPtr &rhs)
 	return !(lhs == rhs);
 }
 
+bool operator< (const StrBlobPtr &lhs, const StrBlobPtr &rhs)
+{
+	return lhs.curr < rhs.curr;
+}
+
+bool operator> (const StrBlobPtr &lhs, const StrBlobPtr &rhs)
+{
+	return lhs.curr > rhs.curr;
+}
+
+bool operator<= (const StrBlobPtr &lhs, const StrBlobPtr &rhs)
+{
+	return !(lhs > rhs);
+}
+
+bool operator>=(const StrBlobPtr &lhs, const StrBlobPtr &rhs)
+{
+	return !(lhs < rhs);
+}
+
+StrBlobPtr operator+ (const StrBlobPtr &sbp, std::size_t i)
+{
+	auto ret = sbp;
+	ret += i;
+	return ret;
+}
+
+StrBlobPtr operator- (const StrBlobPtr &sbp, std::size_t i)
+{
+	auto ret = sbp;
+	ret -= i;
+	return ret;
+}
+
 /* =================================define for ConstStrBlobPtr==========================*/
 
 ConstStrBlobPtr::ConstStrBlobPtr(const StrBlob &sb, size_t sz) :
@@ -180,6 +311,23 @@ ConstStrBlobPtr &ConstStrBlobPtr::incr()
 	check(curr, "increament past end of ConstStrBlobPtr");
 	++curr;
 	return *this;
+}
+
+const string &ConstStrBlobPtr::operator[](std::size_t n) const
+{
+	auto ret = check(n, "operator[] past end of ConstStrBlobPtr");
+	return (*ret)[n];
+}
+
+const string &ConstStrBlobPtr::operator* () const
+{
+	auto ret = check(curr, "dereference past end of StrBlobPtr");
+	return (*ret)[curr];
+}
+
+const string *ConstStrBlobPtr::operator->() const
+{
+	return &this->operator*();
 }
 
 shared_ptr<vector<string>> 
@@ -203,7 +351,23 @@ bool operator!= (const ConstStrBlobPtr &lhs, const ConstStrBlobPtr &rhs)
 	return !(lhs == rhs);
 }
 
-int main()
+bool operator< (const ConstStrBlobPtr &lhs, const ConstStrBlobPtr &rhs)
 {
-
+	return lhs.curr < rhs.curr;
 }
+
+bool operator> (const ConstStrBlobPtr &lhs, const ConstStrBlobPtr &rhs)
+{
+	return lhs.curr > rhs.curr;
+}
+
+bool operator<= (const ConstStrBlobPtr &lhs, const ConstStrBlobPtr &rhs)
+{
+	return !(lhs > rhs);
+}
+
+bool operator>= (const ConstStrBlobPtr &lhs, const ConstStrBlobPtr &rhs)
+{
+	return !(lhs < rhs);
+}
+

@@ -47,6 +47,12 @@ Sales_data &Sales_data::operator+= (const Sales_data &rhs)
 	return *this;
 }
 
+Sales_data &Sales_data::operator= (const std::string &bn)
+{
+	*this = Sales_data(bn);         ////////////////////////////////////////////////////////
+	return *this;
+}
+
 Sales_data operator+ (const Sales_data &lhs, const Sales_data &rhs)
 {
 	Sales_data total = lhs;
