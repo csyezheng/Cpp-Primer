@@ -13,6 +13,16 @@ string Sales_data::isbn() const
 	return bookNo;
 }
 
+Sales_data::operator string() const
+{
+	return bookNo;
+}
+
+Sales_data::operator double() const 
+{
+	return avg_price();
+}
+
 istream &operator>> (istream &is, Sales_data &item)
 {
 	double price;

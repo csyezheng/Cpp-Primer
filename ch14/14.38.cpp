@@ -23,7 +23,8 @@ int main()
 					entry.incr_count();
 		}
 	}
+	size_t i = 1;
 	for (const auto &elem : vec)
-		elem.print();
+		std::cout << i++ << ": " << elem.print() << std::endl;
 	return 0;
 }

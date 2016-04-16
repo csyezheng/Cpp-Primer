@@ -20,6 +20,8 @@ public:
 	Sales_data &operator+= (const Sales_data&);
 	Sales_data &operator= (const std::string&);
 	std::string isbn() const;
+	explicit operator std::string() const;
+	explicit operator double() const;
 private:
 	std::string bookNo;
 	unsigned units_sold;

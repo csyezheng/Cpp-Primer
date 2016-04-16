@@ -18,7 +18,7 @@ public:
 	}
 	print()
 	{
-		std::cout << count << " ";
+		std::cout << count;
 	}
 private:
 	std::size_t sz;
