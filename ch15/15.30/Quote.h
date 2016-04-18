@@ -7,20 +7,19 @@ class Quote
 {
 public:
 	Quote() = default;
-	Quote(const std::string&, double p);
+	Quote(const std::string &bn, double p);
 	Quote(const Quote&);
-	Quote(Quote&&) noexcept;
 	Quote &operator= (const Quote&);
+	Quote(Quote &&) noexcept;
 	Quote &operator= (Quote&&) noexcept;
-	virtual ~Quote();
+	virtual ~Quote() = default;
 	std::string isbn() const;
 	virtual double net_price(std::size_t) const;
 private:
 	std::string bookNo;
 protected:
-	double price = 0.0;
+	double price;
 };
-
 
 
 #endif

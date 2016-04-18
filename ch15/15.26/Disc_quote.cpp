@@ -13,15 +13,26 @@ Disc_quote &Disc_quote::operator= (const Disc_quote &rhs)
 	return *this;
 }
 
-Disc_quote::Disc_quote(Disc_quote &&rhs) :
+Disc_quote::Disc_quote(Disc_quote &&rhs) noexcept:
 	Quote(std::move(rhs)),
 	quantity(std::move(rhs.quantity)), discount(std::move(rhs.discount))
 {
 	std::cout << "Disc_quote(Disc_quote&&)" << std::endl;
 }
 
-Disc_quote &Disc_quote::operator= (Disc_quote &&rhs)
+Disc_quote &Disc_quote::operator= (Disc_quote &&rhs) noexcept
 {
-	Quote::Quote(std::move(rhs));
-	quantity = st
+	if (this != &rhs)
+	{
+		Quote::Quote(std::move(rhs));
+		quantity = std::move(rhs.quantity);
+		discount = std::move(rhs.discount);
+		std::cout << "Disc_quote &operator(Disc_quote&&)" << std::endl;
+	}
+	return *this;
+}
+
+Disc_quote::~Disc_quote()
+{
+	std::cout << "~Disc_quote()" << std::endl;
 }

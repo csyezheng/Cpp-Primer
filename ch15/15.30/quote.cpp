@@ -1,26 +1,18 @@
 #include <string>
-#include <iostream>
 #include "Quote.h"
 
 Quote::Quote(const std::string &bn, double p) : bookNo(bn), price(p) { }
 
-Quote::Quote(const Quote &rhs) : bookNo(rhs.bookNo), price(rhs.price)
-{
-	std::cout << "Quote(const Quote&)" << std::endl;
-}
-
-Quote::Quote(Quote &&rhs) noexcept: bookNo(std::move(rhs.bookNo)), price(std::move(rhs.price))
-{
-	std::cout << "Quote(Quote&&)" << std::endl;
-}
+Quote::Quote(const Quote &rhs) : bookNo(rhs.bookNo), price(rhs.price) { }
 
 Quote &Quote::operator= (const Quote &rhs)
 {
 	bookNo = rhs.bookNo;
 	price = rhs.price;
-	std::cout << "Quote &operator(const Quote&)" << std::endl;
 	return *this;
 }
+
+Quote::Quote(Quote &&rhs) noexcept: bookNo(std::move(bookNo)), price(std::move(price)) { }
 
 Quote &Quote::operator= (Quote &&rhs) noexcept
 {
@@ -28,14 +20,8 @@ Quote &Quote::operator= (Quote &&rhs) noexcept
 	{
 		bookNo = std::move(rhs.bookNo);
 		price = std::move(rhs.price);
-		std::cout << "Quote &operator(Quote&&)" << std::endl;
-	} 
+	}
 	return *this;
-}
-
-Quote::~Quote()
-{
-	std::cout << "~Quote()" << std::endl;
 }
 
 std::string Quote::isbn() const
