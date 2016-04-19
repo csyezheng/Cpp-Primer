@@ -14,6 +14,8 @@ public:
 	Bulk_quote &operator= (Bulk_quote&&) noexcept;
 	~Bulk_quote() override = default;
 	double net_price(std::size_t) const override;
+	Bulk_quote *clone() const & override;
+	Bulk_quote *clone() && override;
 };
 
 

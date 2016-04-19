@@ -2,6 +2,7 @@
 #define QUOTE_H
 
 #include <string>
+#include <memory>
 
 class Quote
 {
@@ -15,6 +16,8 @@ public:
 	virtual ~Quote() = default;
 	std::string isbn() const;
 	virtual double net_price(std::size_t) const;
+	virtual Quote *clone() const &;
+	virtual Quote *clone() && ;
 private:
 	std::string bookNo;
 protected:

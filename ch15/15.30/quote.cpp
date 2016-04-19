@@ -33,3 +33,13 @@ double Quote::net_price(std::size_t n) const
 {
 	return n * price;
 }
+
+Quote *Quote::clone() const &
+{
+	return new Quote(*this);
+}
+
+Quote *Quote::clone() &&
+{
+	return new Quote(std::move(*this));
+}

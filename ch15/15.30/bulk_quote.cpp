@@ -24,3 +24,13 @@ double Bulk_quote::net_price(std::size_t n) const
 	else
 		return n * price;
 }
+
+Bulk_quote *Bulk_quote::clone() const &
+{
+	return new Bulk_quote(*this);
+}
+
+Bulk_quote *Bulk_quote::clone() &&
+{
+	return new Bulk_quote(std::move(*this));
+}
