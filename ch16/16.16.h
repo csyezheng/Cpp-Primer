@@ -107,7 +107,7 @@ inline std::size_t Vec<T>::capacity() const
 template<typename T>
 inline bool Vec<T>::empty() const
 {
-	return (elements) ? false : true;
+	return size() ? false : true;
 }
 
 template<typename T>

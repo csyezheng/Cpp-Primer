@@ -2,53 +2,57 @@
 #define BLOB_H
 
 #include <string>
-#include <memory>
-#include <vector>
-#include <initializer_list>
 #include <stdexcept>
-
+#include <initializer_list>
 
 template<typename T>
 class Blob
 {
 public:
-	using size_type = typename std::vector<T>::size_type;       // must use typename
+	using size_type = std::vector<T>::size_type;
 	Blob();
 	Blob(std::initializer_list<T>);
-	size_type size() const										// typename T::value_type
-	{
-		return data->size();                          
-	}
+	template<typename It>
+	Blob(It, It);
+	size_type size() const;
 	bool empty() const;
 	void push_back(const T&);
-	void push_back(T&&);
+	void push_back(T &&);
 	void pop_back();
 	T &front();
 	const T front() const;
 	T &back();
 	const T back() const;
-	T *begin();
-	T *end();
-	const T *begin() const;
-	const T *end() const;
-	T &operator[](size_type i);
-	const T &operator[](size_type i) const;
+	T *begin() const;
+	T *end() const;
+	T &operator[] (size_type);
+	const &operator[] (size_type) const;
 private:
 	std::shared_ptr<std::vector<T>> data;
-	void check(const size_type i, const std::string &msg) const;
+	void check(size_type i, const std::string &msg) const;
 };
 
 template<typename T>
-Blob<T>::Blob() : std::make_shared<std::vector<T>>() { }
+Blob<T>::Blob() : data(std::make_shared<std::vector<T>>()) { }
 
 template<typename T>
 Blob<T>::Blob(std::initializer_list<T> il) :
 	data(std::make_shared<std::vector<T>>(il)) { }
 
 template<typename T>
+template<typename It>
+Blob<T>::Blob(It b, It e) : data(std::make_shared<std::vector<T>>(b, e)) { }
+
+template<typename T>
+typename Blob<T>::size_type Blob<T>::size() const
+{
+	return data->size();
+}
+
+template<typename T>
 bool Blob<T>::empty() const
 {
-	return data->empty();
+	return size() ? false : true;
 }
 
 template<typename T>
@@ -58,12 +62,12 @@ void Blob<T>::push_back(const T &item)
 }
 
 template<typename T>
-void Blob<T>::push_back(T &&value)
+void Blob<T>::push_back(T &&item)
 {
-	data->push_back(std::move(value));
+	data->push_back(std::move(item));
 }
 
-template<typename T>
+template<typename>
 void Blob<T>::pop_back()
 {
 	check(0, "pop_back on empty Blob");
@@ -78,13 +82,13 @@ T &Blob<T>::front()
 }
 
 template<typename T>
-const T Blob<T>::front() const
+const T &Blob<T>::front() const
 {
 	check(0, "front on empty Blob");
 	return data->front();
 }
 
-template<typename T>
+template<typeanme T>
 T &Blob<T>::back()
 {
 	check(0, "back on empty Blob");
@@ -92,32 +96,20 @@ T &Blob<T>::back()
 }
 
 template<typename T>
-const T Blob<T>::back() const
+const T &Blob<T>::back() const
 {
 	check(0, "back on empty Blob");
 	return data->back();
 }
 
 template<typename T>
-T *Blob<T>::begin()
+T *Blob<T>::begin() const
 {
 	return data->begin();
 }
 
 template<typename T>
-const T *Blob<T>::begin() const
-{
-	return data->begin();
-}
-
-template<typename T>
-T *Blob<T>::end() 
-{
-	return data->end();
-}
-
-template<typename T>
-const T *Blob<T>::end() const
+T *Blob<T>::end() const
 {
 	return data->end();
 }
@@ -137,10 +129,11 @@ const T &Blob<T>::operator[] (size_type i) const
 }
 
 template<typename T>
-void Blob<T>::check(const size_type i, const std::string &msg) const
+void Blob<T>::check(size_type i, const std::string &msg) const
 {
 	if (i >= size())
 		throw std::out_of_range(msg);
 }
+
 
 #endif
