@@ -12,7 +12,7 @@ public:
 	Shared_ptr(T*);
 	Shared_ptr(T*, std::function<void(T*)> f);
 	Shared_ptr(const Shared_ptr&);
-	Shared_ptr &operator= (const Shared_ptr&);
+		Shared_ptr &operator= (const Shared_ptr&);
 	Shared_ptr(Shared_ptr&&) noexcept:
 	Shared_ptr &operator= (Shared_ptr&&) noexcept;
 	~Shared_ptr();
@@ -32,7 +32,6 @@ private:
 	std::function<void(T*)> deleter;
 	void free();
 };
-
 
 template<typename T>
 Shared_ptr<T>::Shared_ptr() : 
